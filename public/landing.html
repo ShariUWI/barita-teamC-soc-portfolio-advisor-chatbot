@@ -1,0 +1,1116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Barita Wealth Advisor — AI-Powered Portfolio Intelligence</title>
+  <meta name="description" content="Get a personalised investment portfolio built around your goals, risk tolerance, and financial situation — powered by AI. Barita Skills Optimisation Challenge 2026." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ══════════════════════════════════════════
+       RESET & VARIABLES
+    ══════════════════════════════════════════ */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --navy:        #0F1B35;
+      --navy-mid:    #1A2D52;
+      --navy-light:  #243860;
+      --teal:        #00C4B4;
+      --teal-dim:    #009E91;
+      --teal-glow:   rgba(0,196,180,0.15);
+      --teal-subtle: rgba(0,196,180,0.07);
+      --gold:        #E8C547;
+      --white:       #FFFFFF;
+      --off-white:   #F7F9FC;
+      --border:      rgba(255,255,255,0.09);
+      --border-light:#E4ECF4;
+      --text:        #0F1B35;
+      --text-muted:  #5C6F8A;
+      --text-faint:  #9AABBE;
+      --radius:      12px;
+      --radius-lg:   20px;
+      --radius-xl:   32px;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'DM Sans', system-ui, sans-serif;
+      background: var(--white);
+      color: var(--text);
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ══════════════════════════════════════════
+       NAVBAR
+    ══════════════════════════════════════════ */
+    .nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 18px 60px;
+      transition: background 0.3s, box-shadow 0.3s;
+    }
+
+    .nav.scrolled {
+      background: rgba(15,27,53,0.97);
+      backdrop-filter: blur(16px);
+      box-shadow: 0 1px 0 rgba(255,255,255,0.06);
+    }
+
+    .nav-brand { display: flex; align-items: center; gap: 11px; text-decoration: none; }
+
+    .nav-icon {
+      width: 36px; height: 36px; border-radius: 9px;
+      background: var(--teal);
+      display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 0 20px rgba(0,196,180,0.4);
+    }
+
+    .nav-icon svg { width: 18px; height: 18px; }
+
+    .nav-name {
+      font-family: 'Instrument Serif', serif;
+      font-size: 19px; color: var(--white); letter-spacing: -0.01em;
+    }
+
+    .nav-links { display: flex; align-items: center; gap: 32px; }
+
+    .nav-link {
+      color: rgba(255,255,255,0.65); font-size: 14px; font-weight: 500;
+      text-decoration: none; transition: color 0.2s;
+    }
+
+    .nav-link:hover { color: var(--white); }
+
+    .nav-cta {
+      background: var(--teal); color: var(--navy);
+      font-size: 13px; font-weight: 700; padding: 9px 20px;
+      border-radius: 8px; text-decoration: none;
+      transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+      box-shadow: 0 4px 16px rgba(0,196,180,0.35);
+      letter-spacing: 0.01em;
+    }
+
+    .nav-cta:hover {
+      background: #00DDD0; transform: translateY(-1px);
+      box-shadow: 0 6px 24px rgba(0,196,180,0.45);
+    }
+
+    /* ══════════════════════════════════════════
+       HERO
+    ══════════════════════════════════════════ */
+    .hero {
+      min-height: 100vh;
+      background: var(--navy);
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      text-align: center;
+      padding: 120px 24px 80px;
+      position: relative; overflow: hidden;
+    }
+
+    /* Animated background orbs */
+    .hero-orb {
+      position: absolute; border-radius: 50%;
+      filter: blur(100px); pointer-events: none; opacity: 0;
+      animation: orbFloat 8s ease-in-out infinite;
+    }
+
+    .hero-orb.o1 {
+      width: 600px; height: 600px;
+      background: radial-gradient(circle, rgba(0,196,180,0.22), transparent 70%);
+      top: -150px; left: -100px;
+      animation-delay: 0s;
+    }
+
+    .hero-orb.o2 {
+      width: 500px; height: 500px;
+      background: radial-gradient(circle, rgba(232,197,71,0.12), transparent 70%);
+      bottom: -100px; right: -80px;
+      animation-delay: 3s;
+    }
+
+    .hero-orb.o3 {
+      width: 400px; height: 400px;
+      background: radial-gradient(circle, rgba(0,196,180,0.10), transparent 70%);
+      top: 50%; left: 50%; transform: translate(-50%,-50%);
+      animation-delay: 1.5s;
+    }
+
+    /* Grid texture */
+    .hero::before {
+      content: '';
+      position: absolute; inset: 0; pointer-events: none;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
+      background-size: 60px 60px;
+    }
+
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: rgba(0,196,180,0.1); border: 1px solid rgba(0,196,180,0.25);
+      border-radius: 20px; padding: 6px 14px;
+      font-size: 12px; font-weight: 600; color: var(--teal);
+      letter-spacing: 0.06em; text-transform: uppercase;
+      margin-bottom: 28px; position: relative; z-index: 1;
+      animation: fadeUp 0.6s ease both;
+    }
+
+    .hero-badge-dot {
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--teal); animation: pulse 2s infinite;
+    }
+
+    .hero-h {
+      font-family: 'Instrument Serif', serif;
+      font-size: clamp(44px, 6vw, 80px);
+      color: var(--white); line-height: 1.08;
+      letter-spacing: -0.02em; margin-bottom: 24px;
+      max-width: 820px; position: relative; z-index: 1;
+      animation: fadeUp 0.6s 0.1s ease both;
+    }
+
+    .hero-h em {
+      font-style: italic; color: var(--teal);
+      display: inline-block;
+    }
+
+    .hero-p {
+      font-size: 18px; color: rgba(255,255,255,0.6);
+      line-height: 1.7; max-width: 560px;
+      margin-bottom: 44px; position: relative; z-index: 1;
+      animation: fadeUp 0.6s 0.2s ease both;
+      font-weight: 300;
+    }
+
+    .hero-actions {
+      display: flex; align-items: center; gap: 16px;
+      position: relative; z-index: 1;
+      animation: fadeUp 0.6s 0.3s ease both;
+      flex-wrap: wrap; justify-content: center;
+    }
+
+    .btn-hero-primary {
+      background: var(--teal); color: var(--navy);
+      font-size: 15px; font-weight: 700; padding: 15px 32px;
+      border-radius: var(--radius); text-decoration: none;
+      display: inline-flex; align-items: center; gap: 8px;
+      transition: all 0.2s; box-shadow: 0 6px 28px rgba(0,196,180,0.4);
+      letter-spacing: 0.01em;
+    }
+
+    .btn-hero-primary:hover { background: #00DDD0; transform: translateY(-2px); box-shadow: 0 10px 36px rgba(0,196,180,0.5); }
+
+    .btn-hero-secondary {
+      color: rgba(255,255,255,0.7); font-size: 15px; font-weight: 500;
+      text-decoration: none; display: inline-flex; align-items: center; gap: 8px;
+      transition: color 0.2s; padding: 15px 8px;
+    }
+
+    .btn-hero-secondary:hover { color: var(--white); }
+
+    .hero-stats {
+      display: flex; align-items: center; gap: 48px;
+      margin-top: 72px; position: relative; z-index: 1;
+      animation: fadeUp 0.6s 0.4s ease both;
+      padding-top: 40px; border-top: 1px solid var(--border);
+      flex-wrap: wrap; justify-content: center;
+    }
+
+    .hero-stat-val   { font-family: 'Instrument Serif', serif; font-size: 36px; color: var(--white); margin-bottom: 4px; }
+    .hero-stat-label { font-size: 13px; color: rgba(255,255,255,0.45); font-weight: 400; }
+
+    .hero-stat-divider { width: 1px; height: 40px; background: var(--border); }
+
+    /* ══════════════════════════════════════════
+       HOW IT WORKS
+    ══════════════════════════════════════════ */
+    .how {
+      background: var(--off-white);
+      padding: 100px 24px;
+    }
+
+    .section-label {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-size: 11px; font-weight: 700; letter-spacing: 0.12em;
+      text-transform: uppercase; color: var(--teal);
+      margin-bottom: 14px;
+    }
+
+    .section-label::before { content: ''; width: 24px; height: 2px; background: var(--teal); display: inline-block; }
+
+    .section-h {
+      font-family: 'Instrument Serif', serif;
+      font-size: clamp(32px, 4vw, 52px);
+      color: var(--navy); line-height: 1.12;
+      letter-spacing: -0.02em; margin-bottom: 14px;
+    }
+
+    .section-p {
+      font-size: 16px; color: var(--text-muted);
+      line-height: 1.7; max-width: 500px; font-weight: 300;
+    }
+
+    .container { max-width: 1140px; margin: 0 auto; }
+
+    .how-inner {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 80px; align-items: center;
+    }
+
+    .how-steps { display: flex; flex-direction: column; gap: 0; }
+
+    .how-step {
+      display: flex; gap: 20px; padding: 28px 0;
+      border-bottom: 1px solid var(--border-light);
+      position: relative;
+    }
+
+    .how-step:last-child { border-bottom: none; }
+
+    .how-step-num {
+      width: 40px; height: 40px; border-radius: 10px;
+      background: var(--navy); color: var(--teal);
+      font-family: 'Instrument Serif', serif; font-size: 20px;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0; box-shadow: 0 4px 14px rgba(15,27,53,0.15);
+    }
+
+    .how-step-h { font-size: 16px; font-weight: 700; color: var(--navy); margin-bottom: 6px; }
+    .how-step-p { font-size: 14px; color: var(--text-muted); line-height: 1.6; font-weight: 300; }
+
+    /* Mock dashboard card */
+    .how-visual {
+      background: var(--navy);
+      border-radius: var(--radius-xl);
+      padding: 28px;
+      box-shadow: 0 24px 64px rgba(15,27,53,0.25);
+      position: relative; overflow: hidden;
+    }
+
+    .how-visual::before {
+      content: ''; position: absolute;
+      width: 300px; height: 300px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(0,196,180,0.15), transparent 70%);
+      top: -80px; right: -80px; pointer-events: none;
+    }
+
+    .mock-topbar {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 20px;
+    }
+
+    .mock-brand { font-family: 'Instrument Serif', serif; font-size: 15px; color: var(--white); }
+    .mock-avatar { width: 28px; height: 28px; border-radius: 50%; background: var(--teal); display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; color: var(--navy); }
+
+    .mock-profile-card {
+      background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 14px; padding: 18px; margin-bottom: 14px;
+    }
+
+    .mock-label { font-size: 10px; color: rgba(255,255,255,0.4); letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 6px; }
+    .mock-profile-badge { display: inline-flex; align-items: center; gap: 6px; background: rgba(0,196,180,0.15); border: 1px solid rgba(0,196,180,0.3); border-radius: 20px; padding: 4px 12px; font-size: 12px; font-weight: 600; color: var(--teal); }
+
+    .mock-bars { display: flex; flex-direction: column; gap: 10px; }
+
+    .mock-bar-row { display: flex; align-items: center; gap: 10px; }
+    .mock-bar-label { font-size: 11px; color: rgba(255,255,255,0.5); width: 110px; flex-shrink: 0; }
+    .mock-bar-outer { flex: 1; height: 5px; background: rgba(255,255,255,0.08); border-radius: 3px; overflow: hidden; }
+    .mock-bar-inner { height: 100%; border-radius: 3px; }
+    .mock-bar-pct   { font-size: 11px; font-weight: 600; color: rgba(255,255,255,0.7); width: 28px; text-align: right; }
+
+    .mock-metrics {
+      display: grid; grid-template-columns: 1fr 1fr 1fr;
+      gap: 8px; margin-top: 14px;
+    }
+
+    .mock-metric {
+      background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.07);
+      border-radius: 10px; padding: 12px;
+    }
+
+    .mock-metric-label { font-size: 9px; color: rgba(255,255,255,0.35); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 4px; }
+    .mock-metric-val   { font-family: 'Instrument Serif', serif; font-size: 18px; }
+
+    /* ══════════════════════════════════════════
+       FEATURES
+    ══════════════════════════════════════════ */
+    .features { padding: 100px 24px; background: var(--white); }
+
+    .features-header { text-align: center; margin-bottom: 60px; }
+    .features-header .section-p { margin: 0 auto; }
+
+    .features-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 20px; }
+
+    .feature-card {
+      background: var(--off-white); border: 1px solid var(--border-light);
+      border-radius: var(--radius-lg); padding: 32px 28px;
+      transition: border-color 0.2s, transform 0.2s, box-shadow 0.2s;
+      position: relative; overflow: hidden;
+    }
+
+    .feature-card::before {
+      content: ''; position: absolute; inset: 0;
+      background: linear-gradient(135deg, var(--teal-subtle), transparent);
+      opacity: 0; transition: opacity 0.3s;
+    }
+
+    .feature-card:hover { border-color: rgba(0,196,180,0.3); transform: translateY(-4px); box-shadow: 0 16px 40px rgba(15,27,53,0.10); }
+    .feature-card:hover::before { opacity: 1; }
+
+    .feature-icon {
+      width: 48px; height: 48px; border-radius: 12px;
+      background: var(--navy); display: flex; align-items: center; justify-content: center;
+      font-size: 22px; margin-bottom: 18px; position: relative;
+    }
+
+    .feature-h { font-size: 16px; font-weight: 700; color: var(--navy); margin-bottom: 8px; }
+    .feature-p { font-size: 14px; color: var(--text-muted); line-height: 1.65; font-weight: 300; }
+
+    /* ══════════════════════════════════════════
+       INVESTOR TYPES
+    ══════════════════════════════════════════ */
+    .investor-types {
+      padding: 100px 24px;
+      background: var(--navy);
+      position: relative; overflow: hidden;
+    }
+
+    .investor-types::before {
+      content: ''; position: absolute; inset: 0; pointer-events: none;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+      background-size: 60px 60px;
+    }
+
+    .investor-types .section-h { color: var(--white); }
+    .investor-types .section-p { color: rgba(255,255,255,0.5); }
+
+    .investor-types-header { text-align: center; margin-bottom: 60px; }
+
+    .investor-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 20px; }
+
+    .investor-card {
+      border-radius: var(--radius-lg); padding: 36px 28px;
+      position: relative; overflow: hidden;
+      transition: transform 0.2s;
+    }
+
+    .investor-card:hover { transform: translateY(-4px); }
+
+    .investor-card.beginner     { background: linear-gradient(145deg, #0E2A40, #0A1F30); border: 1px solid rgba(0,196,180,0.25); }
+    .investor-card.intermediate { background: linear-gradient(145deg, #1A2040, #111830); border: 1px solid rgba(59,130,246,0.25); }
+    .investor-card.experienced  { background: linear-gradient(145deg, #2A1A10, #1E1208); border: 1px solid rgba(232,197,71,0.25); }
+
+    .investor-type-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 5px 12px; border-radius: 20px;
+      font-size: 11px; font-weight: 700; letter-spacing: 0.05em;
+      text-transform: uppercase; margin-bottom: 20px;
+    }
+
+    .investor-card.beginner     .investor-type-badge { background: rgba(0,196,180,0.15); color: var(--teal);  border: 1px solid rgba(0,196,180,0.3); }
+    .investor-card.intermediate .investor-type-badge { background: rgba(59,130,246,0.15); color: #60A5FA; border: 1px solid rgba(59,130,246,0.3); }
+    .investor-card.experienced  .investor-type-badge { background: rgba(232,197,71,0.15);  color: var(--gold); border: 1px solid rgba(232,197,71,0.3); }
+
+    .investor-card-h { font-family: 'Instrument Serif', serif; font-size: 24px; color: var(--white); margin-bottom: 10px; line-height: 1.2; }
+    .investor-card-p { font-size: 13px; color: rgba(255,255,255,0.5); line-height: 1.65; font-weight: 300; margin-bottom: 24px; }
+
+    .investor-traits { display: flex; flex-direction: column; gap: 8px; }
+
+    .investor-trait {
+      display: flex; align-items: center; gap: 9px;
+      font-size: 13px; color: rgba(255,255,255,0.65); font-weight: 400;
+    }
+
+    .investor-trait-dot { width: 5px; height: 5px; border-radius: 50%; flex-shrink: 0; }
+    .beginner     .investor-trait-dot { background: var(--teal); }
+    .intermediate .investor-trait-dot { background: #60A5FA; }
+    .experienced  .investor-trait-dot { background: var(--gold); }
+
+    /* ══════════════════════════════════════════
+       TRUST BADGES
+    ══════════════════════════════════════════ */
+    .trust { padding: 60px 24px; background: var(--off-white); border-top: 1px solid var(--border-light); }
+
+    .trust-inner {
+      display: flex; align-items: center; justify-content: center;
+      gap: 48px; flex-wrap: wrap;
+    }
+
+    .trust-item { display: flex; align-items: center; gap: 10px; }
+    .trust-icon { font-size: 22px; }
+    .trust-text { font-size: 14px; font-weight: 600; color: var(--text-muted); }
+
+    .trust-divider { width: 1px; height: 24px; background: var(--border-light); }
+
+    /* ══════════════════════════════════════════
+       TESTIMONIALS
+    ══════════════════════════════════════════ */
+    .testimonials { padding: 100px 24px; background: var(--white); }
+
+    .testimonials-header { text-align: center; margin-bottom: 52px; }
+
+    .testimonials-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 20px; }
+
+    .testimonial-card {
+      background: var(--off-white); border: 1px solid var(--border-light);
+      border-radius: var(--radius-lg); padding: 28px;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .testimonial-card:hover { transform: translateY(-3px); box-shadow: 0 12px 32px rgba(15,27,53,0.08); }
+
+    .testimonial-stars { color: var(--gold); font-size: 14px; margin-bottom: 14px; letter-spacing: 2px; }
+
+    .testimonial-quote {
+      font-size: 14px; color: var(--text-muted); line-height: 1.7;
+      font-weight: 300; margin-bottom: 20px; font-style: italic;
+    }
+
+    .testimonial-author { display: flex; align-items: center; gap: 10px; }
+    .testimonial-avatar {
+      width: 36px; height: 36px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 13px; font-weight: 700; color: white;
+    }
+    .testimonial-name  { font-size: 13px; font-weight: 700; color: var(--navy); }
+    .testimonial-role  { font-size: 11px; color: var(--text-faint); margin-top: 1px; }
+
+    /* ══════════════════════════════════════════
+       FAQ
+    ══════════════════════════════════════════ */
+    .faq { padding: 100px 24px; background: var(--off-white); }
+
+    .faq-inner { display: grid; grid-template-columns: 1fr 1.4fr; gap: 80px; align-items: start; }
+
+    .faq-list { display: flex; flex-direction: column; gap: 0; }
+
+    .faq-item {
+      border-bottom: 1px solid var(--border-light);
+      overflow: hidden;
+    }
+
+    .faq-q {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 20px 0; cursor: pointer;
+      font-size: 15px; font-weight: 600; color: var(--navy);
+      transition: color 0.2s; gap: 16px;
+      background: none; border: none; width: 100%; text-align: left;
+    }
+
+    .faq-q:hover { color: var(--teal); }
+
+    .faq-q.open { color: var(--teal); }
+
+    .faq-icon {
+      width: 24px; height: 24px; border-radius: 50%;
+      background: var(--navy); color: var(--white);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 14px; flex-shrink: 0; transition: background 0.2s, transform 0.3s;
+    }
+
+    .faq-q.open .faq-icon { background: var(--teal); color: var(--navy); transform: rotate(45deg); }
+
+    .faq-a {
+      font-size: 14px; color: var(--text-muted); line-height: 1.7;
+      font-weight: 300; max-height: 0; overflow: hidden;
+      transition: max-height 0.35s ease, padding 0.2s;
+    }
+
+    .faq-a.open { max-height: 300px; padding-bottom: 18px; }
+
+    /* ══════════════════════════════════════════
+       CTA SECTION
+    ══════════════════════════════════════════ */
+    .cta-section {
+      padding: 100px 24px;
+      background: var(--navy); text-align: center;
+      position: relative; overflow: hidden;
+    }
+
+    .cta-section::before {
+      content: ''; position: absolute;
+      width: 700px; height: 700px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(0,196,180,0.12), transparent 60%);
+      top: 50%; left: 50%; transform: translate(-50%,-50%);
+      pointer-events: none;
+    }
+
+    .cta-h {
+      font-family: 'Instrument Serif', serif;
+      font-size: clamp(36px, 5vw, 62px);
+      color: var(--white); letter-spacing: -0.02em;
+      line-height: 1.1; margin-bottom: 18px;
+      position: relative; z-index: 1;
+    }
+
+    .cta-h em { font-style: italic; color: var(--teal); }
+
+    .cta-p {
+      font-size: 17px; color: rgba(255,255,255,0.55);
+      max-width: 480px; margin: 0 auto 40px; line-height: 1.65; font-weight: 300;
+      position: relative; z-index: 1;
+    }
+
+    .cta-actions { display: flex; align-items: center; justify-content: center; gap: 14px; flex-wrap: wrap; position: relative; z-index: 1; }
+
+    /* ══════════════════════════════════════════
+       FOOTER
+    ══════════════════════════════════════════ */
+    .footer {
+      background: var(--navy-mid);
+      border-top: 1px solid rgba(255,255,255,0.06);
+      padding: 52px 60px 32px;
+    }
+
+    .footer-top { display: grid; grid-template-columns: 1.4fr 1fr 1fr 1fr; gap: 48px; margin-bottom: 48px; }
+
+    .footer-brand { }
+    .footer-brand-name { font-family: 'Instrument Serif', serif; font-size: 18px; color: var(--white); margin-bottom: 10px; display: flex; align-items: center; gap: 10px; }
+    .footer-brand-p { font-size: 13px; color: rgba(255,255,255,0.4); line-height: 1.65; font-weight: 300; max-width: 240px; }
+
+    .footer-col-h { font-size: 12px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: rgba(255,255,255,0.35); margin-bottom: 16px; }
+
+    .footer-links { display: flex; flex-direction: column; gap: 10px; }
+
+    .footer-link {
+      font-size: 13px; color: rgba(255,255,255,0.5);
+      text-decoration: none; transition: color 0.2s; font-weight: 400;
+    }
+
+    .footer-link:hover { color: var(--teal); }
+
+    .footer-bottom {
+      display: flex; align-items: center; justify-content: space-between;
+      padding-top: 28px; border-top: 1px solid rgba(255,255,255,0.06);
+      flex-wrap: wrap; gap: 12px;
+    }
+
+    .footer-copy { font-size: 12px; color: rgba(255,255,255,0.25); }
+
+    .footer-soc-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: rgba(0,196,180,0.08); border: 1px solid rgba(0,196,180,0.15);
+      border-radius: 20px; padding: 4px 12px;
+      font-size: 11px; font-weight: 600; color: rgba(0,196,180,0.6); letter-spacing: 0.04em;
+    }
+
+    /* ══════════════════════════════════════════
+       ANIMATIONS
+    ══════════════════════════════════════════ */
+    @keyframes fadeUp  { from { opacity:0; transform:translateY(20px); } to { opacity:1; transform:translateY(0); } }
+    @keyframes orbFloat {
+      0%,100% { opacity: 0.9; transform: scale(1); }
+      50%      { opacity: 1;   transform: scale(1.05); }
+    }
+    @keyframes pulse   { 0%,100% { opacity:1; } 50% { opacity:0.4; } }
+
+    /* Scroll reveal */
+    .reveal { opacity: 0; transform: translateY(28px); transition: opacity 0.65s ease, transform 0.65s ease; }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    /* ══════════════════════════════════════════
+       RESPONSIVE
+    ══════════════════════════════════════════ */
+    @media (max-width: 900px) {
+      .nav { padding: 16px 24px; }
+      .nav-links { display: none; }
+      .how-inner, .faq-inner { grid-template-columns: 1fr; gap: 40px; }
+      .features-grid, .investor-grid, .testimonials-grid { grid-template-columns: 1fr; }
+      .footer-top { grid-template-columns: 1fr 1fr; gap: 32px; }
+    }
+
+    @media (max-width: 600px) {
+      .hero-stats { gap: 24px; }
+      .hero-stat-divider { display: none; }
+      .footer { padding: 40px 24px 24px; }
+      .footer-top { grid-template-columns: 1fr; gap: 28px; }
+      .footer-bottom { flex-direction: column; align-items: flex-start; }
+      .trust-inner { gap: 24px; }
+      .trust-divider { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════════
+     NAVBAR
+══════════════════════════════════════════ -->
+<nav class="nav" id="navbar">
+  <a class="nav-brand" href="#">
+    <div class="nav-icon">
+      <svg viewBox="0 0 24 24" fill="none">
+        <path d="M3 3h7v7H3V3zm11 0h7v7h-7V3zM3 14h7v7H3v-7zm11 3.5a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0z" fill="white"/>
+      </svg>
+    </div>
+    <span class="nav-name">Barita Wealth Advisor</span>
+  </a>
+  <div class="nav-links">
+    <a class="nav-link" href="#how">How it works</a>
+    <a class="nav-link" href="#features">Features</a>
+    <a class="nav-link" href="#investors">Investor types</a>
+    <a class="nav-link" href="#faq">FAQ</a>
+  </div>
+  <a class="nav-cta" href="index.html">Sign In →</a>
+</nav>
+
+<!-- ══════════════════════════════════════════
+     HERO
+══════════════════════════════════════════ -->
+<section class="hero">
+  <div class="hero-orb o1"></div>
+  <div class="hero-orb o2"></div>
+  <div class="hero-orb o3"></div>
+
+  <div class="hero-badge">
+    <div class="hero-badge-dot"></div>
+    Barita SOC 2026 — AI Portfolio Advisor
+  </div>
+
+  <h1 class="hero-h">
+    Your money deserves<br/><em>intelligent</em> advice.
+  </h1>
+
+  <p class="hero-p">
+    Answer 12 questions. Get a personalised portfolio built around your goals, risk tolerance, and financial situation — powered by Claude AI and Barita's SOC instrument universe.
+  </p>
+
+  <div class="hero-actions">
+    <a class="btn-hero-primary" href="index.html">
+      Get My Portfolio →
+    </a>
+    <a class="btn-hero-secondary" href="#how">
+      See how it works ↓
+    </a>
+  </div>
+
+  <div class="hero-stats">
+    <div class="hero-stat">
+      <div class="hero-stat-val">12</div>
+      <div class="hero-stat-label">Profiling sections</div>
+    </div>
+    <div class="hero-stat-divider"></div>
+    <div class="hero-stat">
+      <div class="hero-stat-val">3 min</div>
+      <div class="hero-stat-label">To complete</div>
+    </div>
+    <div class="hero-stat-divider"></div>
+    <div class="hero-stat">
+      <div class="hero-stat-val">AI</div>
+      <div class="hero-stat-label">Generated advice</div>
+    </div>
+    <div class="hero-stat-divider"></div>
+    <div class="hero-stat">
+      <div class="hero-stat-val">PDF</div>
+      <div class="hero-stat-label">Downloadable report</div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════
+     TRUST BAR
+══════════════════════════════════════════ -->
+<div class="trust">
+  <div class="trust-inner container">
+    <div class="trust-item"><span class="trust-icon">🔒</span><span class="trust-text">Secured with Firebase Auth</span></div>
+    <div class="trust-divider"></div>
+    <div class="trust-item"><span class="trust-icon">🤖</span><span class="trust-text">Powered by Claude AI</span></div>
+    <div class="trust-divider"></div>
+    <div class="trust-item"><span class="trust-icon">🇯🇲</span><span class="trust-text">Jamaican market focus</span></div>
+    <div class="trust-divider"></div>
+    <div class="trust-item"><span class="trust-icon">📄</span><span class="trust-text">Professional PDF report</span></div>
+    <div class="trust-divider"></div>
+    <div class="trust-item"><span class="trust-icon">🏦</span><span class="trust-text">Barita SOC 2026</span></div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     HOW IT WORKS
+══════════════════════════════════════════ -->
+<section class="how" id="how">
+  <div class="container">
+    <div class="how-inner">
+      <div>
+        <div class="section-label reveal">How it works</div>
+        <h2 class="section-h reveal">Three steps to your<br/>ideal portfolio.</h2>
+        <p class="section-p reveal" style="margin-bottom:40px">No financial jargon. No confusing forms. Just clear questions and a portfolio that actually fits your life.</p>
+
+        <div class="how-steps">
+          <div class="how-step reveal">
+            <div class="how-step-num">1</div>
+            <div>
+              <div class="how-step-h">Complete the questionnaire</div>
+              <p class="how-step-p">Answer 12 sections covering your experience, goals, time horizon, risk tolerance, financial situation, liquidity needs, and more.</p>
+            </div>
+          </div>
+          <div class="how-step reveal">
+            <div class="how-step-num">2</div>
+            <div>
+              <div class="how-step-h">Get your AI-powered analysis</div>
+              <p class="how-step-p">Our engine scores your answers and Claude AI generates a personalised advisory note explaining your recommended allocation.</p>
+            </div>
+          </div>
+          <div class="how-step reveal">
+            <div class="how-step-num">3</div>
+            <div>
+              <div class="how-step-h">Download your report</div>
+              <p class="how-step-p">Receive a professional PDF portfolio report with allocation charts, performance metrics, and tailored investment commentary.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Mock dashboard -->
+      <div class="how-visual reveal">
+        <div class="mock-topbar">
+          <span class="mock-brand">Barita Advisor</span>
+          <div class="mock-avatar">JD</div>
+        </div>
+        <div class="mock-profile-card">
+          <div class="mock-label">Your risk profile</div>
+          <div class="mock-profile-badge">⚖ Moderate Investor</div>
+        </div>
+        <div class="mock-bars">
+          <div class="mock-bar-row">
+            <span class="mock-bar-label">Short Gov Bonds</span>
+            <div class="mock-bar-outer"><div class="mock-bar-inner" style="width:18%;background:#0BB8A9"></div></div>
+            <span class="mock-bar-pct">18%</span>
+          </div>
+          <div class="mock-bar-row">
+            <span class="mock-bar-label">Global Tech Equity</span>
+            <div class="mock-bar-outer"><div class="mock-bar-inner" style="width:15%;background:#3B82F6"></div></div>
+            <span class="mock-bar-pct">15%</span>
+          </div>
+          <div class="mock-bar-row">
+            <span class="mock-bar-label">Dom. Financials</span>
+            <div class="mock-bar-outer"><div class="mock-bar-inner" style="width:15%;background:#8B5CF6"></div></div>
+            <span class="mock-bar-pct">15%</span>
+          </div>
+          <div class="mock-bar-row">
+            <span class="mock-bar-label">Long Gov Bonds</span>
+            <div class="mock-bar-outer"><div class="mock-bar-inner" style="width:12%;background:#38BDF8"></div></div>
+            <span class="mock-bar-pct">12%</span>
+          </div>
+          <div class="mock-bar-row">
+            <span class="mock-bar-label">Real Estate Fund</span>
+            <div class="mock-bar-outer"><div class="mock-bar-inner" style="width:10%;background:#FB923C"></div></div>
+            <span class="mock-bar-pct">10%</span>
+          </div>
+        </div>
+        <div class="mock-metrics">
+          <div class="mock-metric">
+            <div class="mock-metric-label">Return</div>
+            <div class="mock-metric-val" style="color:#10B981">11.8%</div>
+          </div>
+          <div class="mock-metric">
+            <div class="mock-metric-label">Volatility</div>
+            <div class="mock-metric-val" style="color:#EF4444">9.6%</div>
+          </div>
+          <div class="mock-metric">
+            <div class="mock-metric-label">Sharpe</div>
+            <div class="mock-metric-val" style="color:#0BB8A9">0.97</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════
+     FEATURES
+══════════════════════════════════════════ -->
+<section class="features" id="features">
+  <div class="container">
+    <div class="features-header">
+      <div class="section-label reveal">What you get</div>
+      <h2 class="section-h reveal">Everything you need<br/>in one place.</h2>
+      <p class="section-p reveal">Built for the Barita Skills Optimisation Challenge 2026, this platform brings institutional-quality portfolio analysis to everyone.</p>
+    </div>
+    <div class="features-grid">
+      <div class="feature-card reveal">
+        <div class="feature-icon">🎯</div>
+        <div class="feature-h">Personalised Risk Profiling</div>
+        <p class="feature-p">12-section questionnaire covering experience, goals, liquidity, income needs, currency exposure, and economic sensitivities — scored into a tailored risk classification.</p>
+      </div>
+      <div class="feature-card reveal">
+        <div class="feature-icon">🤖</div>
+        <div class="feature-h">AI Advisory Commentary</div>
+        <p class="feature-p">Claude AI generates a personalised advisory note explaining your portfolio allocation in plain language, with specific Jamaican market context.</p>
+      </div>
+      <div class="feature-card reveal">
+        <div class="feature-icon">📊</div>
+        <div class="feature-h">SOC Portfolio Engine</div>
+        <p class="feature-p">Your allocation is built from the Barita SOC instrument universe — T-Bills, government bonds, equities, real estate funds, and alternatives.</p>
+      </div>
+      <div class="feature-card reveal">
+        <div class="feature-icon">📄</div>
+        <div class="feature-h">Professional PDF Report</div>
+        <p class="feature-p">Download a beautifully formatted report with your full allocation, performance metrics, advisor commentary, and financial profile summary.</p>
+      </div>
+      <div class="feature-card reveal">
+        <div class="feature-icon">💬</div>
+        <div class="feature-h">AI Chat Advisor</div>
+        <p class="feature-p">Ask questions about your portfolio, investment strategy, or specific instruments and get tailored answers from your AI advisor.</p>
+      </div>
+      <div class="feature-card reveal">
+        <div class="feature-icon">📁</div>
+        <div class="feature-h">Report History</div>
+        <p class="feature-p">Your reports and portfolio are saved to your account. Retake the questionnaire and track how your profile evolves over time.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════
+     INVESTOR TYPES
+══════════════════════════════════════════ -->
+<section class="investor-types" id="investors">
+  <div class="container">
+    <div class="investor-types-header">
+      <div class="section-label reveal">Investor types</div>
+      <h2 class="section-h reveal">Which investor are you?</h2>
+      <p class="section-p reveal" style="margin:0 auto">Our questionnaire classifies you into one of three investor profiles. Each gets a tailored portfolio and advisor experience.</p>
+    </div>
+    <div class="investor-grid">
+      <div class="investor-card beginner reveal">
+        <div class="investor-type-badge">🌱 Beginner</div>
+        <div class="investor-card-h">Conservative Investor</div>
+        <p class="investor-card-p">You're new to investing or prefer stability over growth. Capital protection is your priority.</p>
+        <div class="investor-traits">
+          <div class="investor-trait"><div class="investor-trait-dot"></div>Focus on T-Bills &amp; Gov Bonds</div>
+          <div class="investor-trait"><div class="investor-trait-dot"></div>Expected return ~7.4% p.a.</div>
+          <div class="investor-trait"><div class="investor-trait-dot"></div>Low volatility (4.2%)</div>
+          <div class="investor-trait"><div class="investor-trait-dot"></div>Sharpe ratio 1.41</div>
+          <div class="investor-trait"><div class="investor-trait-dot"></div>High liquidity allocation</div>
+        </div>
+      </div>
+      <div class="investor-card intermediate reveal">
+        <div class="investor-type-badge">⚖ Intermediate</div>
+        <div class="investor-card-h">Moderate Investor</div>
+        <p class="investor-card-p">You balance growth with stability. Comfortable with some volatility in pursuit of stronger returns.</p>
+        <div class="investor-traits">
+          <div class="investor-trait"><div class="investor-trait-dot"></div>Blend of equities &amp; fixed income</div>
+          <div class="investor-trait"><div class="investor-trait-dot"></div>Expected return ~11.8% p.a.</div>
+          <div class="investor-trait"><div class="investor-trait-dot"></div>Moderate volatility (9.6%)</div>
+          <div class="investor-trait"><div class="investor-trait-dot"></div>Sharpe ratio 0.97</div>
+          <div class="investor-trait"><div class="investor-trait-dot"></div>JMD &amp; USD exposure</div>
+        </div>
+      </div>
+      <div class="investor-card experienced reveal">
+        <div class="investor-type-badge">🔥 Experienced</div>
+        <div class="investor-card-h">Aggressive Investor</div>
+        <p class="investor-card-p">You pursue maximum growth. Comfortable with significant short-term losses in exchange for long-term gains.</p>
+        <div class="investor-traits">
+          <div class="investor-trait"><div class="investor-trait-dot"></div>Equity-heavy allocation</div>
+          <div class="investor-trait"><div class="investor-trait-dot"></div>Expected return ~17.3% p.a.</div>
+          <div class="investor-trait"><div class="investor-trait-dot"></div>High volatility (16.8%)</div>
+          <div class="investor-trait"><div class="investor-trait-dot"></div>Sharpe ratio 0.88</div>
+          <div class="investor-trait"><div class="investor-trait-dot"></div>Global &amp; emerging markets</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════
+     TESTIMONIALS
+══════════════════════════════════════════ -->
+<section class="testimonials">
+  <div class="container">
+    <div class="testimonials-header">
+      <div class="section-label reveal">Testimonials</div>
+      <h2 class="section-h reveal">What participants are saying.</h2>
+    </div>
+    <div class="testimonials-grid">
+      <div class="testimonial-card reveal">
+        <div class="testimonial-stars">★★★★★</div>
+        <p class="testimonial-quote">"I had no idea where to start with investing. The questionnaire walked me through everything and the advisor explained my portfolio in a way that actually made sense."</p>
+        <div class="testimonial-author">
+          <div class="testimonial-avatar" style="background:#0BB8A9">A</div>
+          <div>
+            <div class="testimonial-name">Anika R.</div>
+            <div class="testimonial-role">UWI Student · Conservative Investor</div>
+          </div>
+        </div>
+      </div>
+      <div class="testimonial-card reveal">
+        <div class="testimonial-stars">★★★★★</div>
+        <p class="testimonial-quote">"The AI advisor chat is incredible. I asked it to explain the difference between T-Bills and corporate bonds and it gave me a clear, Jamaican-market specific answer."</p>
+        <div class="testimonial-author">
+          <div class="testimonial-avatar" style="background:#3B82F6">M</div>
+          <div>
+            <div class="testimonial-name">Marcus T.</div>
+            <div class="testimonial-role">UTech Student · Moderate Investor</div>
+          </div>
+        </div>
+      </div>
+      <div class="testimonial-card reveal">
+        <div class="testimonial-stars">★★★★★</div>
+        <p class="testimonial-quote">"The PDF report is incredibly well designed. I downloaded it and immediately understood my allocation, my risk profile, and what I should expect in returns."</p>
+        <div class="testimonial-author">
+          <div class="testimonial-avatar" style="background:#E8C547;color:#0F1B35">S</div>
+          <div>
+            <div class="testimonial-name">Simone C.</div>
+            <div class="testimonial-role">UWI Student · Aggressive Investor</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════
+     FAQ
+══════════════════════════════════════════ -->
+<section class="faq" id="faq">
+  <div class="container">
+    <div class="faq-inner">
+      <div>
+        <div class="section-label reveal">FAQ</div>
+        <h2 class="section-h reveal">Common questions.</h2>
+        <p class="section-p reveal">Still have questions? Reach out to your team coordinator or the SOC organisers.</p>
+      </div>
+      <div class="faq-list">
+        <div class="faq-item">
+          <button class="faq-q" onclick="toggleFaq(this)">
+            Is this real financial advice?
+            <div class="faq-icon">+</div>
+          </button>
+          <div class="faq-a">No. This platform was built for the Barita Skills Optimisation Challenge 2026 using synthetic data provided by Dimension Depths. The portfolios, tickers, and metrics shown are illustrative instruments for the challenge only and do not constitute real investment advice.</div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q" onclick="toggleFaq(this)">
+            How is my risk profile calculated?
+            <div class="faq-icon">+</div>
+          </button>
+          <div class="faq-a">Your answers across 12 sections are scored on multiple dimensions — investment experience, time horizon, reaction to losses, income stability, emergency fund status, liquidity needs, and more. These scores are combined into a weighted total that maps to Conservative, Moderate, or Aggressive.</div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q" onclick="toggleFaq(this)">
+            Where is my data stored?
+            <div class="faq-icon">+</div>
+          </button>
+          <div class="faq-a">Your questionnaire answers and portfolio report are saved to Google Firestore under your authenticated account. Only you can access your data. The Anthropic API key used to generate your advice is stored securely on the backend server and never exposed in the browser.</div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q" onclick="toggleFaq(this)">
+            Can I retake the questionnaire?
+            <div class="faq-icon">+</div>
+          </button>
+          <div class="faq-a">Yes. You can retake the questionnaire at any time from the Questionnaire tab in the dashboard. Each submission generates a new portfolio and saves a new report to your history, so you can compare how your profile changes over time.</div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q" onclick="toggleFaq(this)">
+            What are the SOC instruments?
+            <div class="faq-icon">+</div>
+          </button>
+          <div class="faq-a">The SOC (Skills Optimisation Challenge) instruments are a synthetic universe of assets provided by Dimension Depths and Barita for the 2026 challenge. They include T-Bills, government bonds, corporate bonds, domestic equities, global equities, real estate funds, and alternative investments — mapped to realistic tickers and returns data.</div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q" onclick="toggleFaq(this)">
+            How do I sign in?
+            <div class="faq-icon">+</div>
+          </button>
+          <div class="faq-a">Click "Sign In" in the top right corner. You can sign in with your Google account (one click) or create an account with your email and password. Accounts are open to all Barita SOC 2026 participants from UWI and UTech.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════
+     CTA
+══════════════════════════════════════════ -->
+<section class="cta-section">
+  <h2 class="cta-h reveal">Ready to build your<br/><em>ideal portfolio?</em></h2>
+  <p class="cta-p reveal">Takes 3 minutes. No financial background needed. Get your personalised allocation and AI advisory report today.</p>
+  <div class="cta-actions reveal">
+    <a class="btn-hero-primary" href="index.html">Get Started — It's Free →</a>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════
+     FOOTER
+══════════════════════════════════════════ -->
+<footer class="footer">
+  <div class="footer-top">
+    <div class="footer-brand">
+      <div class="footer-brand-name">
+        <div class="nav-icon" style="width:28px;height:28px;border-radius:7px">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M3 3h7v7H3V3zm11 0h7v7h-7V3zM3 14h7v7H3v-7zm11 3.5a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0z" fill="white"/></svg>
+        </div>
+        Barita Wealth Advisor
+      </div>
+      <p class="footer-brand-p">AI-powered portfolio intelligence for the Barita Skills Optimisation Challenge 2026. Built for UWI &amp; UTech participants.</p>
+    </div>
+    <div>
+      <div class="footer-col-h">Platform</div>
+      <div class="footer-links">
+        <a class="footer-link" href="index.html">Sign In</a>
+        <a class="footer-link" href="#how">How it works</a>
+        <a class="footer-link" href="#features">Features</a>
+        <a class="footer-link" href="#investors">Investor types</a>
+      </div>
+    </div>
+    <div>
+      <div class="footer-col-h">Resources</div>
+      <div class="footer-links">
+        <a class="footer-link" href="#faq">FAQ</a>
+        <a class="footer-link" href="#">SOC 2026 Brief</a>
+        <a class="footer-link" href="#">Dimension Depths Data</a>
+      </div>
+    </div>
+    <div>
+      <div class="footer-col-h">Contact</div>
+      <div class="footer-links">
+        <a class="footer-link" href="mailto:sharioliver.uwi@gmail.com">Team Coordinator</a>
+        <a class="footer-link" href="https://www.barita.com" target="_blank">Barita.com</a>
+      </div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span class="footer-copy">© 2026 Barita Investments Limited. For SOC challenge purposes only. Not real financial advice.</span>
+    <span class="footer-soc-badge">SOC 2026</span>
+  </div>
+</footer>
+
+<script>
+  /* Navbar scroll effect */
+  const navbar = document.getElementById('navbar');
+  window.addEventListener('scroll', () => {
+    navbar.classList.toggle('scrolled', window.scrollY > 40);
+  });
+
+  /* Scroll reveal */
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        entry.target.style.transitionDelay = (i % 4) * 0.08 + 's';
+        entry.target.classList.add('visible');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.12 });
+  reveals.forEach(el => observer.observe(el));
+
+  /* FAQ toggle */
+  function toggleFaq(btn) {
+    const answer = btn.nextElementSibling;
+    const isOpen = btn.classList.contains('open');
+    // Close all
+    document.querySelectorAll('.faq-q').forEach(b => { b.classList.remove('open'); b.nextElementSibling.classList.remove('open'); });
+    if (!isOpen) { btn.classList.add('open'); answer.classList.add('open'); }
+  }
+</script>
+
+</body>
+</html>

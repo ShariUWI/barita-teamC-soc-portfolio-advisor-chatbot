@@ -1,0 +1,144 @@
+═══════════════════════════════════════════════════════
+  BARITA WEALTH ADVISOR — FULL SETUP GUIDE
+  v2 (Flask Backend + Firebase + Render)
+═══════════════════════════════════════════════════════
+
+YOUR FILE STRUCTURE (add to your existing folder)
+──────────────────────────────────────────────────
+barita-portfolio advisor/
+├── index.html          ← REPLACE with new version
+├── style.css           ← REPLACE with new version
+├── app.js              ← REPLACE with new version
+├── app.py              ← NEW — Flask backend
+├── requirements.txt    ← NEW — Python dependencies
+├── render.yaml         ← NEW — Render deploy config
+├── firestore.rules     ← already exists, keep it
+├── firestore.indexes.json ← already exists
+└── firebase.json       ← already exists
+
+
+STEP 1 — FILL IN YOUR FIREBASE CONFIG IN app.js
+─────────────────────────────────────────────────
+Open app.js. At the very top, replace FIREBASE_CONFIG
+with your real values from Firebase Console →
+Project Settings → Your Apps → SDK setup.
+
+
+STEP 2 — SET UP FIREBASE SERVICE ACCOUNT (for backend)
+────────────────────────────────────────────────────────
+The Flask backend needs admin access to Firebase.
+
+1. Go to Firebase Console → Project Settings
+2. Click "Service accounts" tab
+3. Click "Generate new private key"
+4. Download the JSON file
+5. For LOCAL DEVELOPMENT:
+     Rename it to: serviceAccountKey.json
+     Place it in your project folder
+     (Never commit this file to GitHub — add to .gitignore)
+
+6. For RENDER DEPLOYMENT:
+     Open the downloaded JSON file
+     Copy the ENTIRE contents (the whole JSON)
+     You'll paste this as an environment variable on Render
+
+
+STEP 3 — INSTALL PYTHON DEPENDENCIES LOCALLY
+──────────────────────────────────────────────
+In your terminal:
+
+  cd "barita-portfolio advisor"
+  pip install -r requirements.txt
+
+
+STEP 4 — TEST LOCALLY
+───────────────────────
+Terminal 1 — Start Flask backend:
+  python app.py
+  → Running on http://localhost:5000
+
+In app.js, temporarily change BACKEND_URL to:
+  const BACKEND_URL = "http://localhost:5000";
+
+Terminal 2 — Serve frontend:
+  python -m http.server 8000
+  → Open http://localhost:8000
+
+Test the full flow:
+  1. Log in with Google or email
+  2. Complete questionnaire
+  3. Check portfolio view loads
+  4. Test AI chat
+  5. Download PDF report
+
+
+STEP 5 — DEPLOY BACKEND TO RENDER
+────────────────────────────────────
+1. Push your code to a GitHub repo
+   (make sure serviceAccountKey.json is in .gitignore!)
+
+2. Go to https://render.com → New → Web Service
+3. Connect your GitHub repo
+4. Render will detect render.yaml automatically
+
+5. In Render dashboard → Environment Variables, add:
+   ┌─────────────────────────────────┬────────────────────────────────┐
+   │ Key                             │ Value                          │
+   ├─────────────────────────────────┼────────────────────────────────┤
+   │ ANTHROPIC_API_KEY               │ sk-ant-api03-...               │
+   │ FIREBASE_SERVICE_ACCOUNT_JSON   │ { paste entire JSON here }     │
+   └─────────────────────────────────┴────────────────────────────────┘
+
+6. Deploy. Render gives you a URL like:
+   https://barita-advisor-api.onrender.com
+
+7. Copy that URL into app.js:
+   const BACKEND_URL = "https://barita-advisor-api.onrender.com";
+
+
+STEP 6 — DEPLOY FRONTEND TO FIREBASE HOSTING
+──────────────────────────────────────────────
+Make sure BACKEND_URL in app.js points to your Render URL.
+
+  firebase deploy
+
+Your app is live at: https://YOUR_PROJECT.web.app
+
+
+STEP 7 — ADD RENDER URL TO FIREBASE CORS (if needed)
+──────────────────────────────────────────────────────
+In app.py, change:
+  CORS(app, origins=["*"])
+to:
+  CORS(app, origins=["https://YOUR_PROJECT.web.app"])
+
+
+ENVIRONMENT VARIABLES SUMMARY
+───────────────────────────────
+Set these in Render dashboard (not in code):
+
+  ANTHROPIC_API_KEY              Your Anthropic API key
+  FIREBASE_SERVICE_ACCOUNT_JSON  Full JSON from Firebase service account
+
+Never commit these to GitHub.
+
+
+.gitignore (add these lines)
+──────────────────────────────
+serviceAccountKey.json
+.env
+__pycache__/
+*.pyc
+
+
+API ENDPOINTS (Flask backend)
+───────────────────────────────
+GET  /health          → health check
+POST /analyse         → score questionnaire, build portfolio, generate advisory note
+POST /chat            → AI advisor chat (multi-turn)
+POST /generate_report → generate + return PDF report
+
+All POST endpoints require:
+  Header: Authorization: Bearer <Firebase ID token>
+
+═══════════════════════════════════════════════════════
